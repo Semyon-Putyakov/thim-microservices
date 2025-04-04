@@ -37,6 +37,7 @@ public class MeasurementsController {
     public List<MeasurementsDTO> getMeasurements(){
         return measurementsService.getMeasurements().stream().map(this::convertToMeasurementsDTO).collect(Collectors.toList());
     }
+
     @GetMapping("/rainyDaysCount")
     public void getRainyDaysCount(){
         measurementsService.getMeasurementsWhereRainingTrue();
@@ -52,7 +53,6 @@ public class MeasurementsController {
         measurementsService.save(measurementsModel);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-
     @ExceptionHandler
     private ResponseEntity<ControllerError> error(ControllerException e){
         ControllerError controllerError = new ControllerError(e.getMessage(), new Date());

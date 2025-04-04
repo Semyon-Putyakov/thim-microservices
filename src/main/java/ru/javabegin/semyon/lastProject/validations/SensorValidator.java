@@ -30,3 +30,5 @@ public class SensorValidator implements Validator {
         }
     }
 }
+
+// Отправка в untitled20
