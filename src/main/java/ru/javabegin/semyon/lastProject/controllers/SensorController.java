@@ -33,10 +33,10 @@ public class SensorController {
 
     @PostMapping("/registration")
     public ResponseEntity<HttpStatus> registration(@RequestBody @Valid SensorDTO sensorDTO,
-                                                   BindingResult bindingResult){
+                                                   BindingResult bindingResult) {
         SensorModel sensorModel = modelMapper.map(sensorDTO, SensorModel.class);
         sensorValidator.validate(sensorModel, bindingResult);
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             throw new ControllerException(bindingResult.getFieldError().getDefaultMessage());
         }
 
@@ -46,12 +46,12 @@ public class SensorController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<ControllerError> error(ControllerException e){
+    private ResponseEntity<ControllerError> error(ControllerException e) {
         ControllerError sensorError = new ControllerError(e.getMessage(), new Date());
         return new ResponseEntity<>(sensorError, HttpStatus.BAD_REQUEST);
     }
 
-    private SensorModel convertSensorDTOToModel(SensorDTO sensorDTO){
+    private SensorModel convertSensorDTOToModel(SensorDTO sensorDTO) {
         return modelMapper.map(sensorDTO, SensorModel.class);
     }
 }

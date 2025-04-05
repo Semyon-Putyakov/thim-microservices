@@ -4,16 +4,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
-import ru.javabegin.semyon.lastProject.models.SensorModel;
-
-import java.util.Date;
 
 public class MeasurementsDTO {
 
     private SensorDTO sensor;
 
     @NotNull(message = "Поле пустое")
-    @DecimalMin(value = "-100.0" , message = "Слишком низкая температура")
+    @DecimalMin(value = "-100.0", message = "Слишком низкая температура")
     @DecimalMax(value = "100.0", message = "Слишком высокая температура")
     @Column(name = "value")
     private float value;

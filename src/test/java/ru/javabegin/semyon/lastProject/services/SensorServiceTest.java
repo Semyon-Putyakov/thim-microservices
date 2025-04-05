@@ -1,21 +1,21 @@
 package ru.javabegin.semyon.lastProject.services;
 
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.javabegin.semyon.lastProject.models.SensorModel;
 import ru.javabegin.semyon.lastProject.repositories.SensorRepository;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class SensorServiceTest {
+class SensorServiceTest {
 
     @Mock
     private SensorRepository sensorRepository;
@@ -24,46 +24,26 @@ public class SensorServiceTest {
     private SensorService sensorService;
 
     @Test
-    public void testSaveSensor() {
-        SensorModel sensor = createTestSensor(1L, "TestSensor");
+    void saveSensor_ShouldCallRepositorySave() {
+        SensorModel sensor = new SensorModel();
+        sensor.setName("Test Sensor");
 
         sensorService.saveSensor(sensor);
 
-        Mockito.verify(sensorRepository).save(sensor);
+        Mockito.verify(sensorRepository, times(1)).save(sensor);
     }
 
     @Test
-    public void testGetAllSensors() {
-        List<SensorModel> expectedSensors = Arrays.asList(
-            createTestSensor(1L, "Sensor1"),
-            createTestSensor(2L, "Sensor2")
-        );
-
-        Mockito.when(sensorRepository.findAll()).thenReturn(expectedSensors);
-
-        List<SensorModel> actualSensors = sensorService.getAllSensors();
-
-        Assertions.assertEquals(expectedSensors, actualSensors);
-        Mockito.verify(sensorRepository).findAll();
-    }
-
-    @Test
-    public void testGetSensorByName() {
-        String sensorName = "TestSensor";
-        SensorModel expectedSensor = createTestSensor(1L, sensorName);
+    void findSensorByName_ShouldReturnSensor() {
+        String sensorName = "Test Sensor";
+        SensorModel expectedSensor = new SensorModel();
+        expectedSensor.setName(sensorName);
 
         Mockito.when(sensorRepository.findByName(sensorName)).thenReturn(expectedSensor);
+        SensorModel result = sensorService.findSensorByName(sensorName);
 
-        SensorModel actualSensor = sensorService.getSensorByName(sensorName);
-
-        Assertions.assertEquals(expectedSensor, actualSensor);
-        Mockito.verify(sensorRepository).findByName(sensorName);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(sensorName, result.getName());
+        Mockito.verify(sensorRepository, times(1)).findByName(sensorName);
     }
-
-    private SensorModel createTestSensor(Long id, String name) {
-        SensorModel sensor = new SensorModel();
-        sensor.setId(id);
-        sensor.setName(name);
-        return sensor;
-    }
-} 
+}

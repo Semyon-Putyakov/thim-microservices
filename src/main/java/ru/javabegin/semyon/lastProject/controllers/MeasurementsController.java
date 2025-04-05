@@ -34,36 +34,37 @@ public class MeasurementsController {
     }
 
     @GetMapping
-    public List<MeasurementsDTO> getMeasurements(){
+    public List<MeasurementsDTO> getMeasurements() {
         return measurementsService.getMeasurements().stream().map(this::convertToMeasurementsDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/rainyDaysCount")
-    public void getRainyDaysCount(){
+    public void getRainyDaysCount() {
         measurementsService.getMeasurementsWhereRainingTrue();
     }
 
     @PostMapping("/add")
-    public ResponseEntity<HttpStatus> addMeasurements(@RequestBody @Valid MeasurementsDTO measurementsDTO, BindingResult bindingResult){
+    public ResponseEntity<HttpStatus> addMeasurements(@RequestBody @Valid MeasurementsDTO measurementsDTO, BindingResult bindingResult) {
         MeasurementsModel measurementsModel = convertToMeasurementsModel(measurementsDTO);
         measurementsValidation.validate(measurementsModel, bindingResult);
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             throw new ControllerException(bindingResult.getFieldError().getDefaultMessage());
         }
         measurementsService.save(measurementsModel);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
     @ExceptionHandler
-    private ResponseEntity<ControllerError> error(ControllerException e){
+    private ResponseEntity<ControllerError> error(ControllerException e) {
         ControllerError controllerError = new ControllerError(e.getMessage(), new Date());
         return new ResponseEntity<>(controllerError, HttpStatus.BAD_REQUEST);
     }
 
-    private MeasurementsModel convertToMeasurementsModel(MeasurementsDTO measurementsDTO){
+    private MeasurementsModel convertToMeasurementsModel(MeasurementsDTO measurementsDTO) {
         return modelMapper.map(measurementsDTO, MeasurementsModel.class);
     }
 
-    private MeasurementsDTO convertToMeasurementsDTO(MeasurementsModel measurementsModel){
+    private MeasurementsDTO convertToMeasurementsDTO(MeasurementsModel measurementsModel) {
         return modelMapper.map(measurementsModel, MeasurementsDTO.class);
     }
 

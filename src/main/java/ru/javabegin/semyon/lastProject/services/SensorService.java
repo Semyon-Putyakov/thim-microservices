@@ -3,12 +3,8 @@ package ru.javabegin.semyon.lastProject.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.javabegin.semyon.lastProject.models.MeasurementsModel;
 import ru.javabegin.semyon.lastProject.models.SensorModel;
 import ru.javabegin.semyon.lastProject.repositories.SensorRepository;
-
-import java.util.Collection;
-import java.util.Collections;
 
 
 @Service

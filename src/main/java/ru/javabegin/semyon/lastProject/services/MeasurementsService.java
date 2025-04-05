@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class MeasurementsService{
+public class MeasurementsService {
 
     private final MeasurementsRepository measurementsRepository;
     private final SensorService sensorService;
@@ -23,7 +23,7 @@ public class MeasurementsService{
         this.sensorService = sensorService;
     }
 
-    public void save(MeasurementsModel measurementsModel){
+    public void save(MeasurementsModel measurementsModel) {
         SensorModel sensorModel = sensorService.findSensorByName(measurementsModel.getSensor().getName());
         measurementsModel.setSensor(sensorModel);
         measurementsModel.setDate(new Date());
@@ -31,12 +31,12 @@ public class MeasurementsService{
     }
 
     @Transactional(readOnly = true)
-    public List<MeasurementsModel> getMeasurements(){
+    public List<MeasurementsModel> getMeasurements() {
         return measurementsRepository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public void getMeasurementsWhereRainingTrue(){
+    public void getMeasurementsWhereRainingTrue() {
         System.out.println(measurementsRepository.countRainingDate());
     }
 }
